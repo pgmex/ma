@@ -1,38 +1,31 @@
-import androidx.appcompat.app.AppCompatActivity;
-import android.location.Address;
-import android.location.Geocoder;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import java.io.IOException;
-import java.util.List;
-public class MainActivity extends AppCompatActivity {
-    private EditText editText;
-    private TextView textView;
-    private Button button;
-    @Override
+
+public class MainActivity extends Activity implements LocationListener {
+    protected LocationManager locationManager;
+    protected Context context;
+    TextView txtLat,txtlongi;
+    String provider;
+
+    @SuppressLint("MissingPermission")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        editText = findViewById(R.id.editTextTextPersonName);
-        textView = findViewById(R.id.textView);
-        button = findViewById(R.id.button);
+        txtLat = (TextView) findViewById(R.id.lat);
+        txtlongi = (TextView) findViewById(R.id.longi);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
-
-    public void buttonGetCoordinates(View view){
-        Geocoder geocoder = new Geocoder(this);
-        List<Address> addressList;
-        try {
-            addressList = geocoder.getFromLocationName(editText.getText().toString(), 1);
-            if (addressList != null){
-                double doubleLat = addressList.get(0).getLatitude();
-                double doubleLong = addressList.get(0).getLongitude();
-                textView.setText("Latitude: " + String.valueOf(doubleLat) + " | " + "Longitude: " + String.valueOf(doubleLong));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void onLocationChanged(Location loc) {
+        txtLat = (TextView) findViewById(R.id.lat);
+        txtlongi = (TextView) findViewById(R.id.longi);
+        txtLat.setText("" + loc.getLatitude());
+        txtlongi.setText("" + loc.getLongitude());
     }
 }
