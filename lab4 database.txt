@@ -24,12 +24,11 @@ Marks=(EditText)findViewById(R.id.Marks);
 Insert=(Button)findViewById(R.id.Insert);
 Delete=(Button)findViewById(R.id.Delete);
 Update=(Button)findViewById(R.id.Update);
-View=(Button)findViewById(R.id.View);
+
 ViewAll=(Button)findViewById(R.id.ViewAll);
 Insert.setOnClickListener(this);
 Delete.setOnClickListener(this);
 Update.setOnClickListener(this);
-View.setOnClickListener(this);
 ViewAll.setOnClickListener(this);
 
 db=openOrCreateDatabase("StudentDB", Context.MODE_PRIVATE, null);
@@ -86,25 +85,6 @@ if(Rollno.getText().toString().trim().length()==0)
                 showMessage("Error", "Invalid Rollno");
             }
             clearText();
-        }
-        if(view==View)
-        {
-            if(Rollno.getText().toString().trim().length()==0)
-            {
-                showMessage("Error", "Please enter Rollno");
-                return;
-            }
-            Cursor c=db.rawQuery("SELECT * FROM student WHERE rollno='"+Rollno.getText()+"'", null);
-            if(c.moveToFirst())
-            {
-            Name.setText(c.getString(1));
-            Marks.setText(c.getString(2));
-            }
-            else
-            {
-                showMessage("Error", "Invalid Rollno");
-                clearText();
-            }
         }
         if(view==ViewAll)
         {
