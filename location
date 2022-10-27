@@ -9,9 +9,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements LocationListener {
     protected LocationManager locationManager;
-    protected Context context;
     TextView txtLat,txtlongi;
-    String provider;
 
     @SuppressLint("MissingPermission")
     protected void onCreate(Bundle savedInstanceState) {
